@@ -1,0 +1,77 @@
+﻿@model List<Eva_Sxxi_Prepa_2025.Models.Docente>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success text-center">@TempData["Mensaje"]</div>
+}
+
+<h2 class="text-center mb-4">Gestión de Docentes</h2>
+
+<a href="/AdminDocentes/Crear" class="btn btn-success mb-3">
+    <i class="fas fa-plus"></i> Agregar Docente
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre Completo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.NombreCompleto</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="/AdminDocentes/Editar/@d.DocenteId">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <form method="post" asp-action="Eliminar" asp-route-id="@d.DocenteId" class="form-eliminar" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <button type="button" class="btn btn-danger btn-sm btn-eliminar">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </form>
+
+
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Admin/Index" class="btn btn-outline-secondary mt-3">
+    <i class="fas fa-arrow-left"></i> Volver al Panel
+</a>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+
+            botonesEliminar.forEach(boton => {
+                boton.addEventListener('click', function () {
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "No podrás deshacer esta acción.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.closest('form').submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

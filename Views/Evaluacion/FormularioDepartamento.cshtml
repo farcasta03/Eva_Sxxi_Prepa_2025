@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var preguntas = ViewBag.Preguntas;
+    var departamento = ViewBag.Departamento;
+}
+
+<h2 class="mb-4 text-center">Evaluación del Departamento de @departamento.Nombre</h2>
+
+<form method="post" action="/Evaluacion/GuardarEvaluacionDepartamento">
+    <input type="hidden" name="DepartamentoId" value="@departamento.DepartamentoId" />
+
+    @for (int i = 0; i < preguntas.Count; i++)
+    {
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                @(i + 1). @preguntas[i].Texto
+            </label><br />
+
+            @for (int val = 1; val <= 5; val++)
+            {
+                var label = val switch
+                {
+                    1 => "Nunca",
+                    2 => "Casi nunca",
+                    3 => "A veces",
+                    4 => "Casi siempre",
+                    5 => "Siempre",
+                    _ => ""
+                };
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio"
+                           name="Respuestas[@i].Valor"
+                           value="@val" required />
+                    <label class="form-check-label">@label</label>
+                </div>
+            }
+
+            <input type="hidden" name="Respuestas[@i].PreguntaId" value="@preguntas[i].PreguntaId" />
+        </div>
+    }
+
+    <div class="form-group">
+        <label for="Comentario" class="form-label">Comentario (opcional)</label>
+        <textarea class="form-control" name="Comentario" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">
+        <i class="fas fa-paper-plane"></i> Enviar Evaluación
+    </button>
+</form>

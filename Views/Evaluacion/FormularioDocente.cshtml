@@ -1,0 +1,50 @@
+﻿@{
+    var preguntas = ViewBag.Preguntas;
+    var docente = ViewBag.Docente;
+    var materia = ViewBag.Materia;
+    var docenteMateriaId = ViewBag.DocenteMateriaId;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h4>Evaluación para @docente.NombreCompleto - @materia.Nombre</h4>
+
+    <form method="post" action="/Evaluacion/GuardarEvaluacionDocente">
+        <input type="hidden" name="DocenteMateriaId" value="@docenteMateriaId" />
+
+        @for (int i = 0; i < preguntas.Count; i++)
+        {
+            <div class="mb-3">
+                <label><strong>@(i + 1). @preguntas[i].Texto</strong></label><br />
+                @for (int val = 1; val <= 5; val++)
+                {
+                    <input type="radio" name="Respuestas[@i].Valor" value="@val" required />
+                    <label class="me-3">
+                        @{
+                            string label = val switch
+                            {
+                                1 => "Nunca",
+                                2 => "Casi nunca",
+                                3 => "A veces",
+                                4 => "Casi siempre",
+                                5 => "Siempre",
+                                _ => ""
+                            };
+                        }
+                        @label
+                    </label>
+                }
+                <input type="hidden" name="Respuestas[@i].PreguntaId" value="@preguntas[i].PreguntaId" />
+            </div>
+        }
+
+        <div class="form-group">
+            <label>Comentarios (opcional)</label>
+            <textarea class="form-control" name="Comentario" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">Enviar evaluación</button>
+    </form>
+</div>

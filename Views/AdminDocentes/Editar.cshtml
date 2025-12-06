@@ -1,0 +1,26 @@
+﻿@model Eva_Sxxi_Prepa_2025.Models.Docente
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var edicion = ViewContext.RouteData.Values["action"]?.ToString() != "Crear";
+}
+
+<h2 class="text-center mb-4">@((edicion ? "Editar" : "Agregar")) Docente</h2>
+
+<form method="post">
+    @if (edicion)
+    {
+        <input type="hidden" name="DocenteId" value="@Model.DocenteId" />
+    }
+
+    <div class="mb-3">
+        <label for="NombreCompleto" class="form-label">Nombre Completo</label>
+        <input type="text" id="NombreCompleto" name="NombreCompleto" class="form-control" value="@Model?.NombreCompleto" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Guardar
+    </button>
+    <a href="/AdminDocentes/Index" class="btn btn-secondary">
+        Cancelar
+    </a>
+</form>

@@ -1,0 +1,61 @@
+﻿@{
+    var alumno = ViewBag.Alumno;
+    var docentes = ViewBag.Docentes;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h4>Evaluar Docentes</h4>
+    <p>Matrícula: @alumno.Matricula | @alumno.Nombre (@alumno.Semestre° semestre, Grupo @alumno.Grupo)</p>
+
+    <div class="list-group">
+        @foreach (var docente in docentes)
+        {
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@docente.NombreDocente</strong> - @docente.NombreMateria
+                </div>
+            
+                <a class="btn btn-primary btn-sm"
+                   href="/Evaluacion/FormularioDocente?docenteMateriaId=@docente.DocenteMateriaId">
+                    <i class="fas fa-clipboard-check"></i> Evaluar
+                </a>
+
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        @if (TempData["Mensaje"] != null)
+        {
+            <text>
+                    toastr.success("@TempData["Mensaje"]");
+            </text>
+        }
+
+        @if (TempData["Alerta"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Información',
+                        text: '@TempData["Alerta"]',
+                        confirmButtonColor: '#800020'
+                    });
+            </text>
+        }
+    </script>
+}
+
+
+
+<div class="text-center mt-4">
+    <a class="btn btn-outline-primary" href="/Evaluacion/Menu">
+        <i class="fas fa-arrow-left"></i> Regresar al Menú
+    </a>
+</div>

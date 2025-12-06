@@ -1,0 +1,82 @@
+﻿@model List<Eva_Sxxi_Prepa_2025.Models.Materia>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["Mensaje"] = "Materia eliminada correctamente.";
+    </div>
+}
+
+<h2 class="text-center mb-4">Materias Registradas</h2>
+
+<div class="text-end mb-3">
+    <a href="/AdminMaterias/Crear" class="btn btn-success">
+        <i class="fas fa-plus"></i> Nueva Materia
+    </a>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.MateriaId</td>
+                <td>@m.Nombre</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="/AdminMaterias/Editar?id=@m.MateriaId">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+
+                    <form method="post" asp-action="Eliminar" asp-route-id="@m.MateriaId" class="form-eliminar" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <button type="button" class="btn btn-sm btn-danger btn-eliminar">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+
+            botonesEliminar.forEach(boton => {
+                boton.addEventListener('click', function () {
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "Esta acción no se puede deshacer.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.closest('form').submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+<div class="text-center mt-4">
+    <a href="/Admin" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left"></i> Regresar al Menú
+    </a>
+</div>

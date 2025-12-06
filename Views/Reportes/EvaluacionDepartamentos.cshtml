@@ -1,0 +1,85 @@
+﻿@model List<Eva_Sxxi_Prepa_2025.Models.ViewModels.ReporteDepartamentoViewModel>
+
+@{
+    ViewBag.Title = "Reporte de Evaluación de Departamentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var departamentos = ViewBag.Departamentos as List<dynamic>;
+    var departamentoSeleccionado = ViewBag.DepartamentoSeleccionado as string;
+}
+
+<h2 class="text-center mb-4">Reporte de Evaluación de Departamentos</h2>
+
+<form method="get" asp-action="EvaluacionDepartamentos" class="row mb-4">
+    <div class="col-md-6">
+        <label for="departamentoId" class="form-label">Filtrar por Departamento:</label>
+        <select name="departamentoId" class="form-select" onchange="this.form.submit()">
+            <option value="">-- Todos --</option>
+            @if (departamentos != null)
+            {
+                foreach (var dept in departamentos)
+                {
+                    <option value="@dept.DepartamentoId" @(departamentoSeleccionado == dept.DepartamentoId ? "selected" : "")>
+                        @dept.Nombre
+                    </option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-md-6 d-flex align-items-end justify-content-end">
+        @if (!string.IsNullOrEmpty(departamentoSeleccionado))
+        {
+            <a href="@Url.Action("ExportarDepartamentoPDF", "Reportes", new { departamentoId = departamentoSeleccionado })" class="btn btn-danger">
+                Exportar PDF
+            </a>
+        }
+    </div>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Departamento</th>
+                <th>Grupo</th>
+                <th>Promedio</th>
+                <th>N° de Evaluaciones</th>
+                <th>Comentarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Departamento</td>
+                    <td>@item.Grupo</td>
+                    <td>@item.Promedio</td>
+                    <td>@item.Evaluaciones</td>
+                    <td>
+                        @if (item.Comentarios != null && item.Comentarios.Any())
+                        {
+                            <ul>
+                                @foreach (var comentario in item.Comentarios)
+                                {
+                                    <li>@comentario</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <em>Sin comentarios</em>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">No hay datos disponibles para mostrar.</div>
+}
+<a href="/Evaluacion/Menu" class="btn btn-outline-primary mt-3">
+    <i class="fas fa-arrow-left"></i> Regresar al Menú
+</a>
+

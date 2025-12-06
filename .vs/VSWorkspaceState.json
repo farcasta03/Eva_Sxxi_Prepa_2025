@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bin",
+    "\\Controllers",
+    "\\Migrations",
+    "\\Models",
+    "\\Views\\Login",
+    "\\Views\\Shared",
+    "\\wwwroot",
+    "\\wwwroot\\ccs",
+    "\\wwwroot\\Rotativa"
+  ],
+  "SelectedNode": "\\obj",
+  "PreviewInSolutionExplorer": false
+}

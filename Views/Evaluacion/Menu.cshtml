@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var alumno = ViewBag.Alumno;
+}
+
+@if (alumno != null)
+{
+    <div class="container mt-5 text-center">
+        <h3 class="mb-3">Bienvenido, <strong>@alumno.Nombre</strong></h3>
+        <p class="mb-4">
+            Matrícula: <strong>@alumno.Matricula</strong><br />
+            Semestre: @alumno.Semestre | Grupo: @alumno.Grupo
+        </p>
+
+        <div class="d-grid gap-3 d-md-block">
+            <a class="btn btn-success btn-lg me-3" href="/Evaluacion/EvaluarDocente">
+                <i class="fas fa-user-check"></i> Evaluar Docentes
+            </a>
+            <a class="btn btn-primary btn-lg" href="/Evaluacion/EvaluarDepartamento">
+                <i class="fas fa-building"></i> Evaluar Departamentos
+            </a>
+        </div>
+
+        <div class="mt-4">
+            <a href="/Login/Logout" class="btn btn-outline-danger">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning text-center mt-5">
+        <strong>Error:</strong> No se pudo cargar la información del alumno. <a href="/Login/Index">Iniciar sesión</a>
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿.btn-rojo {
+    background-color: #800020;
+    color: white;
+    border: none;
+}
+
+    .btn-rojo:hover {
+        background-color: #600018;
+        color: white;
+    }
+
+.btn-azul {
+    background-color: #003366;
+    color: white;
+    border: none;
+}
+
+    .btn-azul:hover {
+        background-color: #002244;
+        color: white;
+    }

@@ -1,0 +1,29 @@
+﻿@model Eva_Sxxi_Prepa_2025.Models.Materia
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool editar = ViewContext.RouteData.Values["action"].ToString() == "Editar";
+}
+
+<h2 class="text-center mb-4">@((editar ? "Editar" : "Crear")) Materia</h2>
+
+<form method="post">
+    @if (editar)
+    {
+        <input type="hidden" name="MateriaId" value="@Model.MateriaId" />
+    }
+
+    <div class="mb-3">
+        <label for="MateriaId" class="form-label">ID de Materia</label>
+        <input type="text" class="form-control" id="MateriaId" name="MateriaId" value="@Model.MateriaId" @(editar ? "readonly" : "") required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="Nombre" name="Nombre" value="@Model.Nombre" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Guardar
+    </button>
+    <a href="/AdminMaterias/Index" class="btn btn-secondary">Cancelar</a>
+</form>
